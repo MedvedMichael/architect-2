@@ -13,7 +13,7 @@ import {
 } from "./specifications";
 
 export default class NonFilteredProvider implements Provider {
-  url = "http://localhost:3002";
+  url = process.env.REACT_APP_SERVICE2;
   static providerName = "non-filtered";
   private flats!: Flat[];
 

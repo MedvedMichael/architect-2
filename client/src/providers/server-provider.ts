@@ -10,7 +10,7 @@ const headers = {
 };
 
 export default class ServerProvider implements Provider {
-  url = "http://localhost:8080/flats";
+  url = process.env.REACT_APP_SERVER_URL + '/flats';
   static providerName = "server";
   async getFilteredData(query: SearchQuery): Promise<ProvidedFlat[]> {
     const searchParams = new URLSearchParams(query as Record<string, string>);
