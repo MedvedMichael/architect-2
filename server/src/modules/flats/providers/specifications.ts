@@ -1,5 +1,5 @@
 import { ProvidedFlat } from "./provider";
-import SearchQuery from "../interfaces/search-query-interface";
+import SearchQuery from "@interfaces/search-query-interface";
 
 export abstract class Specification {
   constructor(protected query: SearchQuery) {}

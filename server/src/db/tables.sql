@@ -19,6 +19,21 @@ CREATE TABLE "Flats" (
     "apartmentCondition" VARCHAR(255),
     "builtYear" INT
 );
+
+CREATE TABLE "CachedFlats" (
+    "flatID" INT,
+    "userID" INT,
+    cost INT,
+    street VARCHAR(255),
+    "houseNumber" VARCHAR(255),    
+    rooms INT,
+    "floor" INT,
+    "square" INT,
+    "apartmentCondition" VARCHAR(255),
+    "builtYear" INT,
+    "provider" VARCHAR(255) DEFAULT 'server'
+);
+
 CREATE TABLE "AccountOfContracts" (
     "accountOfContractsID" SERIAL PRIMARY KEY,
     meetings INT,

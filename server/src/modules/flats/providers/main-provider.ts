@@ -4,13 +4,12 @@ import Provider, {
   ProvidedFlat,
   ProvidedFlatDTO,
 } from "./provider";
-import SearchQuery from "../interfaces/search-query-interface";
+import SearchQuery from "@interfaces/search-query-interface";
 import ServerProvider from "./server-provider";
 
 const providers: { provider: Provider; name: string }[] = [
   FilteredProvider,
   NonFilteredProvider,
-  ServerProvider,
 ].map((providerClass) => ({
   provider: new providerClass(),
   name: providerClass.providerName,

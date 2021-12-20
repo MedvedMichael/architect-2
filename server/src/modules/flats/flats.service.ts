@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { Flat, FlatBuilder, FlatDTO } from './flat-builder';
 import {
   Chain,

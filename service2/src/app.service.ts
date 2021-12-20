@@ -5,10 +5,11 @@ import { PgService } from './pg/pg.service';
 export class AppService {
   constructor(private pgService: PgService) {}
 
-  async getPriceList() {
+  async getPriceList(page: number) {
+    const count = 5000
     try {
       const res = await this.pgService.useQuery(
-        'SELECT "flatID", "cost", CONCAT("street", \' \', "houseNumber", \', square: \', "square") as "summary" FROM "Flats"',
+        'SELECT "flatID", "cost", CONCAT("street", \' \', "houseNumber", \', square: \', "square") as "summary" FROM "Flats" OFFSET $1 LIMIT $2', [(page-1)*count, count]
       );
       return res.rows;
     } catch (error) {

@@ -1,4 +1,4 @@
-import SearchQuery from "../interfaces/search-query-interface";
+import SearchQuery from '@interfaces/search-query-interface';
 export interface FlatDTO {
   userID: number;
   cost: number;
@@ -24,7 +24,10 @@ export interface ProvidedFlat extends Flat {
 
 export default interface Provider {
   url?: string;
-  getFilteredData: (query: SearchQuery) => Promise<ProvidedFlat[]>;
+  getFilteredData: (
+    query: SearchQuery,
+    saveFunction?: (flats: ProvidedFlat[]) => Promise<void>
+  ) => Promise<ProvidedFlat[]>;
   updateFlat: (flat: ProvidedFlat) => Promise<void>;
   createFlat: (flatDTO: ProvidedFlatDTO) => Promise<ProvidedFlat>;
   deleteFlat: (flat: ProvidedFlat) => Promise<void>;
