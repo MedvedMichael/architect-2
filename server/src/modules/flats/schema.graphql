@@ -1,0 +1,42 @@
+type Flat {
+  flatID: Int!
+  userID: Int!
+  cost: Int!
+  street: String!
+  houseNumber: String!
+  rooms: Int!
+  floor: Int!
+  square: Int!
+  apartmentCondition: String!
+  builtYear: Int!
+  provider: String
+}
+
+input SearchQuery {
+  minPrice: Int
+  maxPrice: Int
+  street: String
+  rooms: Int
+}
+
+type Query {
+  flats(input: SearchQuery): [Flat!]!
+}
+
+input NewFlat {
+  userID: Int!
+  cost: Int!
+  street: String!
+  houseNumber: String!
+  rooms: Int!
+  floor: Int!
+  square: Int!
+  apartmentCondition: String!
+  builtYear: Int!
+}
+
+type Mutation {
+  createFlat(input: NewFlat!): Flat!
+  updateFlat(flatID: Int!, input: NewFlat!): Flat
+  deleteFlat(flatID: Int!): Flat
+}

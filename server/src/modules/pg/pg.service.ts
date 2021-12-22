@@ -150,7 +150,6 @@ export class PgService {
       (returning ? `Returning "${returning}"` : '');
 
     try {
-      console.log(request);
       return this.pool.query(request, [
         ...Object.values(updates),
         ...where.map((obj) => obj.value),

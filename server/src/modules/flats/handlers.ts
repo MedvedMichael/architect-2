@@ -26,7 +26,7 @@ export abstract class Handler<T> {
 
   async handle(req: T): Promise<void> {
     if (this.handler) {
-      this.handler.handle(req);
+      return this.handler.handle(req);
     }
   }
 }
@@ -34,11 +34,11 @@ export abstract class Handler<T> {
 export class CheckExistHandler extends Handler<Flat> {
   private builder = new FlatBuilder();
   async handle(flat: Flat): Promise<void> {
-    const oldFlat = await this.builder.getFlatByID(flat.flatID);
+    const oldFlat = await this.builder.getFlat(flat.flatID, 'server');
     if (!oldFlat) {
       throw new NotFoundException();
     }
-    super.handle(flat);
+    return super.handle(flat);
   }
 }
 
@@ -52,7 +52,7 @@ export class CheckFieldsHandler extends Handler<FlatDTO> {
     ) {
       throw new BadRequestException();
     }
-    super.handle(flat);
+    return super.handle(flat);
   }
 }
 
@@ -64,7 +64,7 @@ export class UpdateHandler extends Handler<Flat> {
       updates: { ...flat },
       where: [{ key: 'flatID', value: flat.flatID }],
     });
-    super.handle(flat);
+    return super.handle(flat);
   }
 }
 
@@ -77,6 +77,7 @@ export class CreateHandler extends Handler<FlatDTO> {
       returning: 'flatID',
     });
     super.handle(flat);
+    if (res.rowCount === 0) throw new BadRequestException();
     return res.rows[0].flatID;
   }
 }

@@ -1,22 +1,25 @@
-import Provider, {
-  Flat,
-  ProvidedFlat,
-  ProvidedFlatDTO,
-} from "./provider";
-import SearchQuery from "@interfaces/search-query-interface";
-import axios from "axios";
-import { FlatsService } from "../flats.service";
+import Provider, { Flat, ProvidedFlat, ProvidedFlatDTO } from './provider';
+import SearchQuery from '@interfaces/search-query-interface';
+import axios from 'axios';
+import { FlatsService } from '../flats.service';
+import { CacheService } from 'src/modules/cache/cache.service';
+import { PgService } from 'src/modules/pg/pg.service';
 
 const headers = {
-  "Content-Type": "application/json",
+  'Content-Type': 'application/json',
 };
 
 export default class ServerProvider implements Provider {
-  static providerName = "server";
+  static providerName = 'server';
   async getFilteredData(query: SearchQuery): Promise<ProvidedFlat[]> {
-    const flatsService = new FlatsService()
-    const flats = await flatsService.searchFlats(query)
-    return flats.map(flat => ({...flat, provider: ServerProvider.providerName}))
+    const flatsService = new FlatsService(
+      new CacheService(PgService.getInstance()),
+    );
+    const flats = await flatsService.searchFlats(query);
+    return flats.map((flat) => ({
+      ...flat,
+      provider: ServerProvider.providerName,
+    }));
   }
 
   async updateFlat(flat: ProvidedFlat) {

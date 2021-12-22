@@ -46,20 +46,20 @@ export default class NonFilteredProvider implements Provider {
     query: SearchQuery,
     saveFunction: (flats: ProvidedFlat[]) => Promise<void>,
   ): Promise<ProvidedFlat[]> {
-    let i = 1,
-      currData: { flatID: number }[] = [];
+    let i = 1;
+    console.log('Lala')
     do {
-      currData = (
+      console.log('I: ' + i);
+      const flatsList = (
         await axios.get<{ flatID: number }[]>(
-          this.url + '/price-list?page=' + i,
+          this.url + '/price-list?page=' + i++,
         )
       ).data;
-      await saveFunction(
-        await this.getFilteredDataByPriceList(query, currData),
-      );
-      i++;
-    } while (i < 5);
-    return [];
+      if (flatsList.length === 0) return;
+      const flats = await this.getFilteredDataByPriceList(query, flatsList);
+
+      await saveFunction(flats);
+    } while (true);
   }
 
   async updateFlat(flat: ProvidedFlat): Promise<void> {}

@@ -1,0 +1,30 @@
+type PurchaseAgreement {
+  purchaseAgreementID: Int!
+  flatID: Int!
+  sellerID: Int!
+  buyerID: Int!
+  date: String!
+  description: String!
+}
+
+type Query {
+  getAgreementByID(agreementID: Int!): PurchaseAgreement
+}
+
+input NewPurchaseAgreement {
+  flatID: Int!
+  sellerID: Int!
+  buyerID: Int!
+  date: String!
+  description: String!
+  provider: String
+}
+
+type Mutation {
+  createAgreement(input: NewPurchaseAgreement!): PurchaseAgreement!
+  updateAgreement(
+    agreementID: Int!
+    input: NewPurchaseAgreement!
+  ): PurchaseAgreement
+  deleteAgreement(agreementID: Int!): PurchaseAgreement
+}

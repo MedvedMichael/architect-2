@@ -1,6 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { WhereStatement } from '../pg/interfaces/query-params.interface';
 import { PgService } from '../pg/pg.service';
+import { ProvidedFlat } from './providers/provider';
 import SearchQuery from './search-query-interface';
 
 export interface FlatDTO {
@@ -21,7 +22,7 @@ export interface Flat extends FlatDTO {
 
 export class FlatBuilder {
   private params: SearchQuery;
-  private pgService: PgService = PgService.getInstance()
+  private pgService: PgService = PgService.getInstance();
 
   setFlatParams(params: SearchQuery): void {
     this.params = params;
@@ -56,17 +57,20 @@ export class FlatBuilder {
     return whereStatement;
   }
 
-  async getSuitableFlats(): Promise<Flat[]> {
+  async getSuitableFlats(): Promise<ProvidedFlat[]> {
     return await this.pgService.find<Flat>({
-      tableName: 'Flats',
+      tableName: 'CachedFlats',
       where: this.generateWhereStatement(),
     });
   }
 
-  async getFlatByID(id: number): Promise<Flat> {
+  async getFlat(id: number, provider: string): Promise<ProvidedFlat> {
     return await this.pgService.findOne<Flat>({
-      tableName: 'Flats',
-      where: [{ key: 'flatID', value: id }],
+      tableName: 'CachedFlats',
+      where: [
+        { key: 'flatID', value: id },
+        { key: 'provider', value: provider },
+      ],
     });
   }
 }

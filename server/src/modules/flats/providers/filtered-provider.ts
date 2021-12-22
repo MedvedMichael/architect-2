@@ -8,7 +8,7 @@ import axios from "axios";
 
 
 export default class FilteredProvider implements Provider {
-  url = process.env.REACT_APP_SERVICE1;
+  url = 'http://localhost:3001';
   static providerName = "filtered";
   async getFilteredData(query: SearchQuery): Promise<ProvidedFlat[]> {
     const searchParams = new URLSearchParams(query as Record<string, string>);
